@@ -105,14 +105,14 @@ function makeContainer(id) {
     like.id = "comment-divVal"+id;
     var img = document.createElement("img");
         img.className = "iconos";
-        img.src = "./res/plus.png";
+        img.src = "./res/up.png";
     like.appendChild(img);
     var dislike = document.createElement("div");
     dislike.className = "comment-dislike";
     dislike.id = "comment-divVal"+id;
     var img2 = document.createElement("img");
         img2.className = "iconos";
-        img2.src="./res/minus.png";
+        img2.src="./res/down.png";
     dislike.appendChild(img2);
     var moriatyLike = document.createElement("div");
     moriatyLike.className = "comment-moriatyLike";
@@ -179,3 +179,22 @@ function fillupContainer(container,id){
     valTot.innerHTML = "6969";
     return container;
 }
+function moriartyRequest() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML =
+                this.responseText;
+        }
+    };
+
+    xhttp.open("POST", "https://jmlk74oovf.execute-api.eu-west-1.amazonaws.com", false);
+    xhttp.setRequestHeader("x-api-key", "9CAfxmC4WB10tnS9RY9oG92Io0M4trVp7HpTUEjR");
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.send(JSON.stringify({ textIn: "barcelona esta en cataluña" })); // parametros de la peticion
+    xhttp.send(JSON.stringify({ language: "barcelona esta en cataluña" })); // parametros de la peticion
+    var respuesta = JSON.parse(xhttp.responseText);
+    console.log(response);
+}
+
