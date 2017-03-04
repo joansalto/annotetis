@@ -7,122 +7,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="moriarty_js/hackup.js"></script>
     <link rel="stylesheet" type="text/css" href="commentStyle.css">
 </head>
 <body>
 <div id="main">
     <div id="readComments">
-        <div class="container comment-superPadre">
-            <div class="comment-divContainer">
-                <div class="comment-divText">
-                    <div class="comment-divCab">
-                        <div class="comment-nick">Yonimevicio</div>
-                        <div class="comment-fecha">20/03/1993</div>
-                    </div>
-                    <p class="comment-text">
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                    </p>
-                    <div class="comment-divVal ">
-                        <div class="comment-valTot">8540</div>
-                        <div class="comment-like "><img class="iconos" src="res/thumb-up-button.png"></div>
-                        <div class="comment-dislike "><img class="iconos" src="res/thumb-down-button.png"></div>
-                        <div class="comment-moriartyLike">Moriarty</div>
-                    </div>
-                </div>
-            </div>
-            <div class="container comment-subContainer">
-                <div class="comment-minimizar"><img id="flecha0" onclick="desplegable(0)" class="iconos"
-                                                    src="res/next-bot.png"></div>
-                <div id="hijos0" class="comment-hijos">
-                    <div class="comment-divContainer">
-                        <div class="comment-divText">
-                            <div class="comment-divCab">
-                                <div class="comment-nick">Yonimevicio</div>
-                                <div class="comment-fecha">20/03/1993</div>
-                            </div>
-                            <p class="comment-text">
-                                Hijos 0
-                                Hijos 0
-                                Hijos 0
-                                Hijos 0
-                                Hijos 0
-                                Hijos 0
-                            </p>
-                            <div class="comment-divVal ">
-                                <div class="comment-valTot">8540</div>
-                                <div class="comment-like "><img class="iconos" src="res/thumb-up-button.png"></div>
-                                <div class="comment-dislike "><img class="iconos" src="res/thumb-down-button.png"></div>
-                                <div class="comment-moriartyLike">Moriarty</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container comment-superPadre">
-            <div class="comment-divContainer">
-                <div class="comment-divText">
-                    <div class="comment-divCab">
-                        <div class="comment-nick">Yonimevicio</div>
-                        <div class="comment-fecha">20/03/1993</div>
-                    </div>
-                    <p class="comment-text">
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                        Padre 1
-                    </p>
-                    <div class="comment-divVal ">
-                        <div class="comment-valTot">8540</div>
-                        <div class="comment-like "><img class="iconos" src="res/thumb-up-button.png"></div>
-                        <div class="comment-dislike "><img class="iconos" src="res/thumb-down-button.png"></div>
-                        <div class="comment-moriartyLike ">Moriarty</div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="comment-minimizar"><img id="flecha1" onclick="desplegable(1)" class="iconos"
-                                                    src="res/next-bot.png"></div>
-                <div id="hijos1" class="comment-hijos">
-                    <div class="comment-divContainer">
-                        <div class="comment-divText">
-                            <div class="comment-divCab">
-                                <div class="comment-nick">Yonimevicio</div>
-                                <div class="comment-fecha">20/03/1993</div>
-                            </div>
-                            <p class="comment-text">
-                                Hijos 1
-                                Hijos 1
-                                Hijos 1
-                                Hijos 1
-                                Hijos 1
-                                Hijos 1
-                            </p>
-                            <div class="comment-divVal ">
-                                <div class="comment-valTot">8540</div>
-                                <div class="comment-like "><img class="iconos" src="res/thumb-up-button.png"></div>
-                                <div class="comment-dislike "><img class="iconos" src="res/thumb-down-button.png"></div>
-                                <div class="comment-moriartyLike ">Moriarty</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div id="writeComments">
-        <textarea class="form-control" placeholder="write here your comment" id="writeText">
+        <textarea placeholder="write here your comment" id="writeText">
 
         </textarea>
-        <button class="btn btn-default btn-block" id="postButton" onclick="writeComment();">Post Now!!</button>
+        <button id="postButton" onclick="postComment();">Post Now!!</button>
     </div>
 
 </div>
