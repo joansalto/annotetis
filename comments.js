@@ -30,12 +30,21 @@ function moriartyIcon(id, face) {
 function postComment() {
     if($("#writeText").val()!=""){
         //lo rellena toni, insertar datos en firebase
+
+        firebase.database().ref('/web/id').set({
+            comment: htmlEntities($("#writeText").val())
+        });
+
     }
 }
 
 var padre = null;
 var primerPadre = true;
 var flagFirstLoad = true;
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 function load(id,idPadre){
     if(flagFirstLoad) firstLoad(id);
@@ -158,7 +167,7 @@ function makeSubContainer(id) {
 }
 
 
-function fillupContainer(container,id){
+function fillupContainer(container, snapshot){
     var divText = container.childNodes.item(0);
 
     var divCab = divText.childNodes.item(0);
@@ -175,7 +184,8 @@ function fillupContainer(container,id){
 
     nick.innerHTML = "Pepe";
     fecha.innerHTML = "20/03/1993";
-    text.innerHTML = "me ha parecido muy bonico";
+    //text.innerHTML = "me ha parecido muy bonico";
+    text.innerHTML = snapshot.val();
     valTot.innerHTML = "6969";
     return container;
 }
@@ -198,3 +208,11 @@ function moriartyRequest() {
     console.log(response);
 }
 
+
+var comentario = firebase.database().ref('/web/id/comment');
+comentario.on('value', function(snapshot) {
+    var container = makeContainer("id");
+    container = fillupContainer(container, snapshot);
+    container = makeFather(container);
+    $("#readComments").append(container);
+});
