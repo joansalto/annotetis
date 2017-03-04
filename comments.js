@@ -30,16 +30,26 @@ function moriartyIcon(id, face) {
 function postComment() {
     if($("#writeText").val()!=""){
         var superPadre = document.createElement("div");
-        superPadre.className = "comment-superPadre";
+        superPadre.className = "container comment-superPadre";
         var date = new Date();
         var fecha = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
-        
+        var container = makeContainer(200);
+        container = fillupContainer(container,200);
+        superPadre.appendChild(container);
+        var subContainer = makeSubContainer(200);
 
+        var container2 = makeContainer(400);
+        container2 =  fillupContainer(container2,400);
+
+        subContainer.childNodes.item(1).appendChild(container2);
+        superPadre.appendChild(subContainer);
+
+        $("#readComments").append(superPadre);
     }
 }
 function makeContainer(id) {
     var divContainer = document.createElement("div");
-    divContainer.className = "comment-container";
+    divContainer.className = "comment-divContainer";
     var divText = document.createElement("div");
     divText.className = "comment-divText";
     var divCab = document.createElement("div");
@@ -85,7 +95,7 @@ function makeContainer(id) {
 
 function makeSubContainer(id) {
     var subContainer = document.createElement("div");
-    subContainer.className = "comment-subContainer";
+    subContainer.className = "container comment-subContainer";
     var minimizar = document.createElement("div");
     minimizar.className = "comment-minimizar";
     var flecha = document.createElement("img");
@@ -105,6 +115,24 @@ function makeSubContainer(id) {
 
 }
 
-function rellenar(container,id){
+function fillupContainer(container,id){
+    var divText = container.childNodes.item(0);
 
+    var divCab = divText.childNodes.item(0);
+    var text = divText.childNodes.item(1);
+    var divVal = divText.childNodes.item(2);
+
+    var nick = divCab.childNodes.item(0);
+    var fecha = divCab.childNodes.item(1);
+
+    var valTot = divVal.childNodes.item(0);
+    var like = divVal.childNodes.item(1);
+    var dislike = divVal.childNodes.item(2);
+    var moriartyLike = divVal.childNodes.item(3);
+
+    nick.value = "Pepe";
+    fecha.value = "20/03/1993";
+    text.value = "me ha parecido muy bonico";
+    valTot.value = "6969";
+    return container;
 }
