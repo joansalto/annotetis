@@ -1,6 +1,6 @@
 
 function writeComment() {
-    alert("has posteado");
+    alert("pito");
 }
 function desplegable(padre) {
     if ($("#comment-hijos" + padre).is(":visible")) ocultar(padre);
