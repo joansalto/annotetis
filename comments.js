@@ -1,6 +1,5 @@
-
 function writeComment() {
-    alert("pito");
+    alert("has posteado");
 }
 function desplegable(padre) {
     if ($("#comment-hijos" + padre).is(":visible")) ocultar(padre);
@@ -30,27 +29,61 @@ function moriartyIcon(id, face) {
 }
 function postComment() {
     if($("#writeText").val()!=""){
-        var superPadre = document.createElement("div");
-        superPadre.className = "container comment-superPadre";
-        var date = new Date();
-        var fecha = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
-        var container = makeContainer(200);
-        container = fillupContainer(container,200);
-        superPadre.appendChild(container);
-        var subContainer = makeSubContainer(200);
-
-        var container2 = makeContainer(400);
-        container2 =  fillupContainer(container2,400);
-
-        subContainer.childNodes.item(1).appendChild(container2);
-        superPadre.appendChild(subContainer);
-
-        $("#readComments").append(superPadre);
+        //lo rellena toni, insertar datos en firebase
     }
+}
+
+var padre = null;
+var primerPadre = true;
+var flagFirstLoad = true;
+
+function load(id,idPadre){
+    if(flagFirstLoad) firstLoad(id);
+    else update(id,idPadre);
+}
+
+function update(id,idPadre) {
+    var container = makeContainer(id); // LA PONE TONI
+    container = fillupContainer(container);
+    if(idPadre != '0'){
+        $("#comment-hijos"+id).appendChild(container);
+    }else{
+        var padre = makeFather(container);
+        $("#readComments").append(padre);
+    }
+}
+
+function firstLoad(id) {
+        var container = makeContainer(id); // LA PONE TONI
+        container = fillupContainer(container);
+        var esPadre; //LA PONE TONI
+        if(esPadre){
+            if(!primerPadre){
+                $("#readComments").append(padre);
+            }else primerPadre = false;
+            padre = makeFather(container);
+        }else{
+            insertChild(padre,container);
+        }
+}
+
+function makeFather(container) {
+    var superPadre = document.createElement("div");
+    superPadre.className = "container comment-superPadre";
+    var subContainer = makeSubContainer(container.id);
+    superPadre.appendChild(container);
+    superPadre.appendChild(subContainer);
+    return superPadre;
+}
+
+function insertChild(father, child) {
+    father.childNodes.item(1).childNodes.item(1).appendChild(child);
+    return father;
 }
 function makeContainer(id) {
     var divContainer = document.createElement("div");
     divContainer.className = "comment-divContainer";
+    divContainer.id = id;
     var divText = document.createElement("div");
     divText.className = "comment-divText";
     var divCab = document.createElement("div");
@@ -70,22 +103,21 @@ function makeContainer(id) {
     var like = document.createElement("div");
     like.className = "comment-like";
     like.id = "comment-divVal"+id;
+    var img = document.createElement("img");
+        img.className = "iconos";
+        img.src = "./res/plus.png";
+    like.appendChild(img);
     var dislike = document.createElement("div");
     dislike.className = "comment-dislike";
     dislike.id = "comment-divVal"+id;
+    var img2 = document.createElement("img");
+        img2.className = "iconos";
+        img2.src="./res/minus.png";
+    dislike.appendChild(img2);
     var moriatyLike = document.createElement("div");
     moriatyLike.className = "comment-moriatyLike";
     moriatyLike.id = "comment-divVal"+id;
 
-    var imgVoteUp = document.createElement("img");
-    imgVoteUp.src = "./res/plus.png";
-    imgVoteUp.className = "iconos";
-    var imgVoteDown = document.createElement("img");
-    imgVoteDown.className = "iconos";
-    imgVoteDown.src = "./res/minus.png";
-
-    like.appendChild(imgVoteUp);
-    dislike.appendChild(imgVoteDown);
     divVal.appendChild(valTot);
     divVal.appendChild(like);
     divVal.appendChild(dislike);
@@ -99,7 +131,7 @@ function makeContainer(id) {
     divText.appendChild(divVal);
 
     divContainer.appendChild(divText);
-    numberOfComments++;
+
     return divContainer;
 }
 
@@ -112,7 +144,7 @@ function makeSubContainer(id) {
     flecha.className = "iconos";
     flecha.id = "comment-flecha"+id;
     flecha.src = "./res/next-bot.png";
-    flecha.setAttribute("onclick", "desplegable("+id+")");
+    flecha.setAttribute("onclick","desplegable("+id+")");
     var hijos = document.createElement("div");
     hijos.className="comment-hijos";
     hijos.id = "comment-hijos"+id;
@@ -123,8 +155,8 @@ function makeSubContainer(id) {
     subContainer.appendChild(hijos);
 
     return subContainer;
-
 }
+
 
 function fillupContainer(container,id){
     var divText = container.childNodes.item(0);
@@ -145,6 +177,5 @@ function fillupContainer(container,id){
     fecha.innerHTML = "20/03/1993";
     text.innerHTML = "me ha parecido muy bonico";
     valTot.innerHTML = "6969";
-    moriartyLike.innerHTML = "Moriarty!";
     return container;
 }
