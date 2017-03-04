@@ -1,17 +1,18 @@
+
 function writeComment() {
     alert("has posteado");
 }
 function desplegable(padre) {
-    if ($("#hijos" + padre).is(":visible")) ocultar(padre);
+    if ($("#comment-hijos" + padre).is(":visible")) ocultar(padre);
     else mostrar(padre)
 }
 function ocultar(padre) {
-    $("#flecha" + padre).attr("src", "res/next.png");
-    $("#hijos" + padre).hide();
+    $("#comment-flecha" + padre).attr("src", "res/next.png");
+    $("#comment-hijos" + padre).hide();
 }
 function mostrar(padre) {
-    $("#flecha" + padre).attr("src", "res/next-bot.png");
-    $("#hijos" + padre).show();
+    $("#comment-flecha" + padre).attr("src", "res/next-bot.png");
+    $("#comment-hijos" + padre).show();
 }
 function moriartyIcon(id, face) {
     var icono = $("#moriarty" + id);
@@ -76,6 +77,15 @@ function makeContainer(id) {
     moriatyLike.className = "comment-moriatyLike";
     moriatyLike.id = "comment-divVal"+id;
 
+    var imgVoteUp = document.createElement("img");
+    imgVoteUp.src = "./res/plus.png";
+    imgVoteUp.className = "iconos";
+    var imgVoteDown = document.createElement("img");
+    imgVoteDown.className = "iconos";
+    imgVoteDown.src = "./res/minus.png";
+
+    like.appendChild(imgVoteUp);
+    dislike.appendChild(imgVoteDown);
     divVal.appendChild(valTot);
     divVal.appendChild(like);
     divVal.appendChild(dislike);
@@ -89,7 +99,7 @@ function makeContainer(id) {
     divText.appendChild(divVal);
 
     divContainer.appendChild(divText);
-
+    numberOfComments++;
     return divContainer;
 }
 
@@ -99,9 +109,10 @@ function makeSubContainer(id) {
     var minimizar = document.createElement("div");
     minimizar.className = "comment-minimizar";
     var flecha = document.createElement("img");
-    flecha.className = "comment-flecha";
+    flecha.className = "iconos";
     flecha.id = "comment-flecha"+id;
-    flecha.src = "./res/next.png";
+    flecha.src = "./res/next-bot.png";
+    flecha.setAttribute("onclick", "desplegable("+id+")");
     var hijos = document.createElement("div");
     hijos.className="comment-hijos";
     hijos.id = "comment-hijos"+id;
@@ -130,9 +141,10 @@ function fillupContainer(container,id){
     var dislike = divVal.childNodes.item(2);
     var moriartyLike = divVal.childNodes.item(3);
 
-    nick.value = "Pepe";
-    fecha.value = "20/03/1993";
-    text.value = "me ha parecido muy bonico";
-    valTot.value = "6969";
+    nick.innerHTML = "Pepe";
+    fecha.innerHTML = "20/03/1993";
+    text.innerHTML = "me ha parecido muy bonico";
+    valTot.innerHTML = "6969";
+    moriartyLike.innerHTML = "Moriarty!";
     return container;
 }
