@@ -31,10 +31,10 @@ function postComment() {
     if($("#writeText").val()!=""){
         //lo rellena toni, insertar datos en firebase
 
-        firebase.database().ref('/web/id').set({
+        var sessionsRef = firebase.database().ref("web/comments");
+        sessionsRef.push({
             comment: htmlEntities($("#writeText").val())
         });
-
     }
 }
 
@@ -209,10 +209,15 @@ function moriartyRequest() {
 }
 
 
-var comentario = firebase.database().ref('/web/id/comment');
-comentario.on('value', function(snapshot) {
-    var container = makeContainer("id");
+var comentario = firebase.database().ref('/web/comments');
+comentario.on('child_added', function(snapshot) {
+    var container = makeContainer(snapshot.val().comment);
     container = fillupContainer(container, snapshot);
     container = makeFather(container);
     $("#readComments").append(container);
+});
+
+var commentsRef = firebase.database().ref('post-comments/' + postId);
+commentsRef.on('child_added', function(data) {
+    addCommentElement(postElement, data.key, data.val().text, data.val().author);
 });
