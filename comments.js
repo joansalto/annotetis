@@ -63,17 +63,17 @@ function update(id,idPadre) {
 }
 
 function firstLoad(id) {
-        var container = makeContainer(id); // LA PONE TONI
-        container = fillupContainer(container);
-        var esPadre; //LA PONE TONI
-        if(esPadre){
-            if(!primerPadre){
-                $("#readComments").append(padre);
-            }else primerPadre = false;
-            padre = makeFather(container);
-        }else{
-            insertChild(padre,container);
-        }
+    var container = makeContainer(id); // LA PONE TONI
+    container = fillupContainer(container);
+    var esPadre; //LA PONE TONI
+    if(esPadre){
+        if(!primerPadre){
+            $("#readComments").append(padre);
+        }else primerPadre = false;
+        padre = makeFather(container);
+    }else{
+        insertChild(padre,container);
+    }
 }
 
 function makeFather(container) {
@@ -113,15 +113,15 @@ function makeContainer(id) {
     like.className = "comment-like";
     like.id = "comment-divVal"+id;
     var img = document.createElement("img");
-        img.className = "iconos";
-        img.src = "./res/up.png";
+    img.className = "iconos";
+    img.src = "./res/up.png";
     like.appendChild(img);
     var dislike = document.createElement("div");
     dislike.className = "comment-dislike";
     dislike.id = "comment-divVal"+id;
     var img2 = document.createElement("img");
-        img2.className = "iconos";
-        img2.src="./res/down.png";
+    img2.className = "iconos";
+    img2.src="./res/down.png";
     dislike.appendChild(img2);
     var moriatyLike = document.createElement("div");
     moriatyLike.className = "comment-moriatyLike";
@@ -221,3 +221,28 @@ var commentsRef = firebase.database().ref('post-comments/' + postId);
 commentsRef.on('child_added', function(data) {
     addCommentElement(postElement, data.key, data.val().text, data.val().author);
 });
+
+function getLanguage(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "http://178.32.148.247:3000/language", false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.send(JSON.stringify({ textIn: $("#"+id).val()}));
+    console.log(xhttp.responseText);
+    if(xhttp.responseText == 'Spanish' || xhttp.responseText == 'English') {
+        getSentiment($("#"+id).val(),xhttp.responseText);
+    }else $("#una").attr("src","res/mori-normal.png");
+}
+
+function getSentiment(text,lang,id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "http://178.32.148.247:3000/sentiment", false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify({ textIn: text, language: lang }));
+    console.log(xhttp.responseText);
+    if(xhttp.responseText == 'positive') {
+        $("#"+id).attr("src","../res/mori-good.png");
+    }else if(xhttp.responseText == 'negative') {
+        $("#"+id).attr("src","../res/mori-bad.png");
+    }else $("#"+id).attr("src","../res/mori-normal.png");
+}
