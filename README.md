@@ -1,7 +1,8 @@
 # Welcome to Annotetis!
 
 Annotetis is and ambitious project with the goal of <b>uncensore</b> the internet. 
-This project has been developed at HackUPC 2017, winter edition by: <i>Antonio Arellano, Adrià Munuera, Cristian Ferrer, Mònica Follana and Joan Saltó</i>.
+This project has been developed at HackUPC 2017, winter edition.
+Developed by: <i>Antonio Arellano, Adrià Munuera, Cristian Ferrer, Mònica Follana and Joan Saltó</i>.
 
 ### What is it? 
 
