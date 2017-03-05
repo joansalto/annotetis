@@ -129,11 +129,26 @@ function makeContainer(id) {
     var moriatyLike = document.createElement("div");
     moriatyLike.className = "comment-moriatyLike";
     moriatyLike.id = "comment-divVal"+id;
+    var img3 = document.createElement("img");
+    img3.className = "iconos";
+    img3.src="";
+    moriatyLike.appendChild(img3);
+    
+    var replyComment = document.createElement("div");
+    replyComment.className = "comment-reply";
+    replyComment.id = "comment-reply"+id;
+    var img4 = document.createElement("img");
+    img4.className = "iconos";
+    img4.src="res/reply.png";
+    img4.setAttribute("onclick","reply("+id+")")
+    replyComment.appendChild(img4);
 
     divVal.appendChild(valTot);
     divVal.appendChild(like);
     divVal.appendChild(dislike);
     divVal.appendChild(moriatyLike);
+    
+    divVal.appendChild(replyComment);
 
     divCab.appendChild(nick);
     divCab.appendChild(fecha);
@@ -269,3 +284,29 @@ function sort(){
     }
 
 }
+function insertAfter(e,i){ 
+    if(e.nextSibling){ 
+        e.parentNode.insertBefore(i,e.nextSibling); 
+    } else { 
+         e.parentNode.appendChild(i); 
+    }
+}
+
+function reply(id) {
+    var divPost = document.createElement("div");
+    divPost.className = "writeComments";
+    divPost.id = "writeComments2";
+    var divTextArea = document.createElement("textarea");
+    divTextArea.className = "writeText";
+    divTextArea.id = "writeText2";
+    var divButton = document.createElement("button");
+    divButton.className = "postButton";
+    divButton.id = "postButton2";
+    divButton.setAttribute("onclick","");
+    
+    divPost.appendChild(divTextArea);
+    divPost.appendChild(divButton);
+    
+    insertAfter($("#"+id), divPost);
+}
+
