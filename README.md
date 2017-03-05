@@ -16,6 +16,10 @@ We use FireBase to manage the Data Base.
 
 First of all, users log in. You can comment, reply comments of other users, help community to acknowledge the best and more usefull comments using our rating system compound of: numerical vaules depending on likes and dislikes and a smilie face based on the IA API Moriarty.
 
+#### Links:
+
+API Moriarty: [http://everismoriarty.com/]
+
 
 
 
