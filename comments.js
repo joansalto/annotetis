@@ -42,11 +42,6 @@ function postComment() {
             comment: htmlEntities($("#writeText").val()),
             score: 0
         }).key;
-        /*var hijo = firebase.database().ref(URL + "/subcomments");
-        hijo.push({
-            papi: llave
-            , comment: "JELOU"
-        })*/
     }
 }
 
