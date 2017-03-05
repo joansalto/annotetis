@@ -1,3 +1,5 @@
+var URL = 'web';
+
 function writeComment() {
     alert("has posteado");
 }
@@ -31,41 +33,42 @@ function postComment() {
     if($("#writeText").val()!=""){
         //lo rellena toni, insertar datos en firebase
 
-        var sessionsRef = firebase.database().ref("web/comments");
-        sessionsRef.push({
-            comment: htmlEntities($("#writeText").val())
-        });
+        var sessionsRef = firebase.database().ref(URL + "/comments");
+        var llave = sessionsRef.push({
+            comment: htmlEntities($("#writeText").val()),
+            score: 0
+        }).key;
+
+        var hijo = firebase.database().ref(URL + "/subcomments");
+        hijo.push({
+            papi: llave,
+            comment: "JELOU"
+        })
     }
 }
-
-var padre = null;
-var primerPadre = true;
-var flagFirstLoad = true;
 
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function load(id,idPadre){
-    if(flagFirstLoad) firstLoad(id);
-    else update(id,idPadre);
+function load(id,idPadre, snapshot){
+     update(id,idPadre, snapshot);
 }
 
-function update(id,idPadre) {
+function update(id,idPadre, snapshot) {
     var container = makeContainer(id); // LA PONE TONI
-    container = fillupContainer(container);
+    container = fillupContainer(container, snapshot);
     if(idPadre != '0'){
-        $("#comment-hijos"+id).appendChild(container);
+        $("#comment-hijos"+idPadre).append(container);
     }else{
         var padre = makeFather(container);
         $("#readComments").append(padre);
     }
 }
 
-function firstLoad(id) {
+function firstLoad(id, snapshot, esPadre) {
     var container = makeContainer(id); // LA PONE TONI
-    container = fillupContainer(container);
-    var esPadre; //LA PONE TONI
+    container = fillupContainer(container, snapshot);
     if(esPadre){
         if(!primerPadre){
             $("#readComments").append(padre);
@@ -183,10 +186,10 @@ function fillupContainer(container, snapshot){
     var moriartyLike = divVal.childNodes.item(3);
 
     nick.innerHTML = "Pepe";
-    fecha.innerHTML = "20/03/1993";
-    //text.innerHTML = "me ha parecido muy bonico";
-    text.innerHTML = snapshot.val();
-    valTot.innerHTML = "6969";
+    var date = new Date();;
+    fecha.innerHTML = date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear();
+    text.innerHTML = snapshot.val().comment;
+    valTot.innerHTML = snapshot.val().score;
     return container;
 }
 function moriartyRequest() {
@@ -209,17 +212,25 @@ function moriartyRequest() {
 }
 
 
-var comentario = firebase.database().ref('/web/comments');
-comentario.on('child_added', function(snapshot) {
-    var container = makeContainer(snapshot.val().comment);
+var cargaComments = firebase.database().ref(URL + '/comments');
+var cargaSubComments = firebase.database().ref(URL + '/subcomments');
+
+cargaComments.on('child_added', function(snapshot) {
+    load(snapshot.key, 0, snapshot);
+
+    /*var container = makeContainer(snapshot.key);
     container = fillupContainer(container, snapshot);
     container = makeFather(container);
-    $("#readComments").append(container);
+    $("#readComments").append(container);*/
 });
 
-var commentsRef = firebase.database().ref('post-comments/' + postId);
-commentsRef.on('child_added', function(data) {
-    addCommentElement(postElement, data.key, data.val().text, data.val().author);
+cargaSubComments.on('child_added', function(snapshot) {
+    load(snapshot.key, snapshot.val().papi, snapshot);
+
+    /*var container = makeContainer(snapshot.key);
+     container = fillupContainer(container, snapshot);
+     container = makeFather(container);
+     $("#readComments").append(container);*/
 });
 
 function getLanguage(id) {
