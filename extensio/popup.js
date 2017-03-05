@@ -7,26 +7,67 @@ var config = {
 };
 firebase.initializeApp(config);
 
+function URLcoder(url) {
+    var url2 = url.replace(/./g, "ñ");
+    return url2.replace("//", "ç")
+}
+
+function URLdecoder(url) {
+    var url2 = url.replace("ñ", ".");
+    return url2.replace("ç", "//")
+
+}
+
+var URL = "/webs";
+
+function getCurrentTabUrl(callback) {
+    var queryInfo = {
+        active: true,
+        currentWindow: true
+    };
+    chrome.tabs.query(queryInfo, function(tabs) {
+        var tab = tabs[0];
+        var url = tab.url;
+        console.assert(typeof url == 'string', 'tab.url should be a string');
+        callback(url);
+    });
+}
 
 
-var URL = "webñ";
+
 
 chrome.tabs.getSelected(null, function(tab) {
     var tabId = tab.id;
     var tabUrl = tab.url;
-    
-    URL=tabUrl;
+
+    URL = URLcoder(tabUrl);
+    cargaComments = firebase.database().ref(URL + '/comments');
+    cargaSubComments = firebase.database().ref(URL + '/subcomments');
+
+    cargaComments.on('child_added', function (snapshot) {
+        load(snapshot.key, 0, snapshot);
+        /*var container = makeContainer(snapshot.key);
+         container = fillupContainer(container, snapshot);
+         container = makeFather(container);
+         $("#readComments").append(container);*/
+    });
+    cargaSubComments.on('child_added', function (snapshot) {
+        load(snapshot.key, snapshot.val().papi, snapshot);
+        /*var container = makeContainer(snapshot.key);
+         container = fillupContainer(container, snapshot);
+         container = makeFather(container);
+         $("#readComments").append(container);*/
+    });
+
+    cargaSubComments.on('child_changed', function (snapshot) {
+        document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+    });
+    cargaComments.on('child_changed', function (snapshot) {
+        document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+    });
+
+    //alert(URL);
 });
-
-/*chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-    function(tabs){
-        alert(tabs[0].url);
-    }
-);*/
-
-/*chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-    URL = tabs[0].url;
-});*/
 
 //var auth = firebase.auth();
 //auth.signInAnonymously();
@@ -77,11 +118,6 @@ function postComment() {
             comment: htmlEntities($("#writeText").val()),
             score: 0
         }).key;
-        /*var hijo = firebase.database().ref(URL + "/subcomments");
-        hijo.push({
-            papi: llave
-            , comment: "JELOU"
-        })*/
     }
 }
 
@@ -273,22 +309,14 @@ function postReply(id) {
 }
 
 //Eventos FIREBASE////////////////////////////////////////////////////
+
 var cargaComments = firebase.database().ref(URL + '/comments');
 var cargaSubComments = firebase.database().ref(URL + '/subcomments');
-
-cargaComments.on('child_added', function (snapshot) {
+/*cargaComments.on('child_added', function (snapshot) {
     load(snapshot.key, 0, snapshot);
-    /*var container = makeContainer(snapshot.key);
-    container = fillupContainer(container, snapshot);
-    container = makeFather(container);
-    $("#readComments").append(container);*/
 });
 cargaSubComments.on('child_added', function (snapshot) {
     load(snapshot.key, snapshot.val().papi, snapshot);
-    /*var container = makeContainer(snapshot.key);
-     container = fillupContainer(container, snapshot);
-     container = makeFather(container);
-     $("#readComments").append(container);*/
 });
 
 cargaSubComments.on('child_changed', function (snapshot) {
@@ -296,7 +324,7 @@ cargaSubComments.on('child_changed', function (snapshot) {
 });
 cargaComments.on('child_changed', function (snapshot) {
     document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
-});
+});*/
 //////////////////////////////////////////////////////////////////////
 
 function getLanguage(id) {
@@ -429,3 +457,33 @@ function downvote(id) {
     });
 }
 document.getElementById("postButton").addEventListener("click",function(){postComment();});
+
+document.onload = initializeExt();
+
+function initializeExt() {
+   URL = getCurrentTabUrl(URLcoder);
+
+    var cargaComments = firebase.database().ref(URL + '/comments');
+    var cargaSubComments = firebase.database().ref(URL + '/subcomments');
+    cargaComments.on('child_added', function (snapshot) {
+        load(snapshot.key, 0, snapshot);
+        /*var container = makeContainer(snapshot.key);
+         container = fillupContainer(container, snapshot);
+         container = makeFather(container);
+         $("#readComments").append(container);*/
+    });
+    cargaSubComments.on('child_added', function (snapshot) {
+        load(snapshot.key, snapshot.val().papi, snapshot);
+        /*var container = makeContainer(snapshot.key);
+         container = fillupContainer(container, snapshot);
+         container = makeFather(container);
+         $("#readComments").append(container);*/
+    });
+
+    cargaSubComments.on('child_changed', function (snapshot) {
+        document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+    });
+    cargaComments.on('child_changed', function (snapshot) {
+        document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+    });
+}
