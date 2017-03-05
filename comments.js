@@ -39,14 +39,14 @@ function postComment() {
         //lo rellena toni, insertar datos en firebase
         var sessionsRef = firebase.database().ref(URL + "/comments");
         var llave = sessionsRef.push({
-            comment: htmlEntities($("#writeText").val())
-            , score: 0
+            comment: htmlEntities($("#writeText").val()),
+            score: 0
         }).key;
-        var hijo = firebase.database().ref(URL + "/subcomments");
+        /*var hijo = firebase.database().ref(URL + "/subcomments");
         hijo.push({
             papi: llave
             , comment: "JELOU"
-        })
+        })*/
     }
 }
 
@@ -130,17 +130,21 @@ function makeContainer(id) {
     valTot.id = "comment-valTot" + id;
     var like = document.createElement("div");
     like.className = "comment-like";
-    like.id = "comment-divVal" + id;
+    like.id = "comment-divVal"+id;
+    like.addEventListener("click", function(e){upvote(e.target.id);});
     var img = document.createElement("img");
     img.className = "iconos";
     img.src = "./res/up.png";
+    img.id = "l"+id;
     like.appendChild(img);
     var dislike = document.createElement("div");
     dislike.className = "comment-dislike";
-    dislike.id = "comment-divVal" + id;
+    dislike.id = "comment-divVal"+id;
+    dislike.addEventListener("click", function(e){downvote(e.target.id);});
     var img2 = document.createElement("img");
     img2.className = "iconos";
-    img2.src = "./res/down.png";
+    img2.src="./res/down.png";
+    img2.id = "d"+id;
     dislike.appendChild(img2);
     var moriatyLike = document.createElement("div");
     moriatyLike.className = "comment-moriatyLike";
@@ -219,8 +223,23 @@ function moriartyRequest() {
     var respuesta = JSON.parse(xhttp.responseText);
     console.log(response);
 }
+
+function postReply(id) {
+    if ($("#writeText2").val() != "") {
+        //lo rellena toni, insertar datos en firebase
+        var sessionsRef = firebase.database().ref(URL + "/subcomments");
+        var llave = sessionsRef.push({
+            comment: htmlEntities($("#writeText2").val()),
+            score: 0,
+            papi: id
+        }).key;
+    }
+}
+
+//Eventos FIREBASE////////////////////////////////////////////////////
 var cargaComments = firebase.database().ref(URL + '/comments');
 var cargaSubComments = firebase.database().ref(URL + '/subcomments');
+
 cargaComments.on('child_added', function (snapshot) {
     load(snapshot.key, 0, snapshot);
     /*var container = makeContainer(snapshot.key);
@@ -235,6 +254,14 @@ cargaSubComments.on('child_added', function (snapshot) {
      container = makeFather(container);
      $("#readComments").append(container);*/
 });
+
+cargaSubComments.on('child_changed', function (snapshot) {
+    document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+});
+cargaComments.on('child_changed', function (snapshot) {
+    document.getElementById("comment-valTot"+snapshot.key).innerHTML = snapshot.val().score;
+});
+//////////////////////////////////////////////////////////////////////
 
 function getLanguage(id) {
     var xhttp = new XMLHttpRequest();
@@ -319,12 +346,22 @@ function upvote(id) {
     for (var i = 1; i < id.length; i++) {
         idR = idR + id.charAt(i);
     }
+
+    var isBigComment = (document.getElementById(idR).parentNode.className == "container comment-superPadre");
+    var ruta;
+
+    if(isBigComment){
+        ruta = URL + '/comments/' + idR;
+    } else {
+        ruta = URL + '/subcomments/' + idR;
+    }
+
     var score;
-    var oldScore = firebase.database().ref(URL + '/comments/' + idR);
+    var oldScore = firebase.database().ref(ruta);
     oldScore.on('value', function (snapshot) {
         score = snapshot.val().score + 1;
     });
-    firebase.database().ref(URL + '/comments/' + idR).update({
+    firebase.database().ref(ruta).update({
         "score": score
     });
 }
@@ -334,12 +371,22 @@ function downvote(id) {
     for (var i = 1; i < id.length; i++) {
         idR = idR + id.charAt(i);
     }
+
+    var isBigComment = (document.getElementById(idR).parentNode.className == "container comment-superPadre");
+    var ruta;
+
+    if(isBigComment){
+        ruta = URL + '/comments/' + idR;
+    } else {
+        ruta = URL + '/subcomments/' + idR;
+    }
+
     var score;
-    var oldScore = firebase.database().ref(URL + '/comments/' + idR);
+    var oldScore = firebase.database().ref(ruta);
     oldScore.on('value', function (snapshot) {
         score = snapshot.val().score - 1;
     });
-    firebase.database().ref(URL + '/comments/' + idR).update({
+    firebase.database().ref(ruta).update({
         "score": score
     });
 }
