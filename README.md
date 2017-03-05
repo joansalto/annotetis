@@ -14,7 +14,7 @@ We use FireBase to manage the Data Base.
 
 ### How it works?
 
-First of all, users log in. You can <b>comment</b>, <b>reply</b> comments of other users, help community to acknowledge the best and more usefull comments using our <b>rating system</b> compound of: numerical vaules depending on likes and dislikes and a smilie face based on the <b>IA API Moriarty</b>.
+First of all, users <b>log in</b>. You can <b>comment</b>, <b>reply</b> comments of other users, help community to acknowledge the best and more usefull comments using our <b>rating system</b> compound of: numerical vaules depending on likes and dislikes and a smilie face based on the <b>IA API Moriarty</b>.
 
 #### Links:
 
