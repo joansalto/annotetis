@@ -1,0 +1,18 @@
+{
+  "manifest_version":2,
+  "name": "Hello World!",
+  "version": "1.0",
+  "description": "My first Chrome extension.",
+  "browser_action": {
+    "default_icon": "megaphone.png",
+     "default_popup": "popup.html",
+     "default_title": "Click here!"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
+}

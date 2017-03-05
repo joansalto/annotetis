@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-theme.min.css">
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="commentStyle.css">
+
+    <script src="firebase.js"></script>
+</head>
+<body>
+<div id="main">
+    <div id="readComments">
+    </div>
+    <div class="writeComments" id="writeComments">
+        <textarea placeholder="write here your comment" class="writeText" id="writeText">
+
+        </textarea>
+        <button class="postButton" id="postButton" onclick="postComment();">Post Now!!</button>
+    </div>
+
+</div>
+</body>
+<script src="comments.js"></script>
+</html>
