@@ -18,7 +18,7 @@ First of all, users log in. You can comment, reply comments of other users, help
 
 #### Links:
 
-API Moriarty: [http://everismoriarty.com/]
+API Moriarty: http://everismoriarty.com/
 
 
 
