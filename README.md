@@ -1,4 +1,4 @@
-# <img src="https://github.com/joansalto/annotetis/blob/master/res/megafono.png" height="75" width="75"> Welcome to Annotetis! 
+# <img src="https://github.com/joansalto/annotetis/blob/master/res/megafono.png" height="50" width="50"> Welcome to Annotetis! 
 
 Annotetis is and ambitious project with the goal of <b>uncensore</b> the internet. 
 This project has been developed at <b>HackUPC 2017</b>, winter edition.
