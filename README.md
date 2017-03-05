@@ -1,4 +1,4 @@
-# Welcome to Annotetis! ![logo](https://github.com/joansalto/annotetis/blob/master/res/megafono.png)
+# Welcome to Annotetis! ![logo](https://github.com/joansalto/annotetis/blob/master/res/megafono.png =100x20)
 
 Annotetis is and ambitious project with the goal of <b>uncensore</b> the internet. 
 This project has been developed at HackUPC 2017, winter edition.
