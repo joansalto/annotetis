@@ -1,6 +1,6 @@
 # <img src="https://github.com/joansalto/annotetis/blob/master/res/megafono.png" height="50" width="50"> Welcome to Annotetis! 
 
-Annotetis is and ambitious project with the goal of <b>uncensore</b> the internet. 
+Annotetis is an ambitious project with the goal of <b>uncensore</b> the internet. 
 This project has been developed at <b>HackUPC 2017</b>, winter edition.
 
 ### What is it? 
@@ -9,7 +9,7 @@ It's a <b>browser extension</b> that allows users to write comments at every web
 
 ### How it's made?
 
-It's made with HTML, JavaScript (JQuery) and CSS to create the web extension.
+It's made with HTML, JavaScript and CSS to create the web extension.
 We use FireBase to manage the Data Base.
 
 ### How it works?
