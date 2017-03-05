@@ -236,7 +236,16 @@ cargaSubComments.on('child_added', function(snapshot) {
 function getLanguage(id) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "http://178.32.148.247:3000/language", false);
-    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader("Content-type", "application/json"); 0; i < n-1; i++){
+        if($("#readComments").childNodes.item(i).childNodes.item(0).childNodes.item(0).childNodes.item(2).childNodes.item(0).val() < $("#readComments").childNodes.item(i+1).childNodes.item(0).childNodes.item(0).childNodes.item(2).childNodes.item(0).val()){
+                        var aux = $("#readComments").childNodes.item(i);
+                        $("#readComments").childNodes.item(i) = $("#readComments").childNodes.item(i+1);
+                        $("#readComments").childNodes.item(i+1) = aux;
+        }
+        i = 0;
+    }
+
+}
 
     xhttp.send(JSON.stringify({ textIn: $("#"+id).val()}));
     console.log(xhttp.responseText);
@@ -256,4 +265,17 @@ function getSentiment(text,lang,id) {
     }else if(xhttp.responseText == 'negative') {
         $("#"+id).attr("src","../res/mori-bad.png");
     }else $("#"+id).attr("src","../res/mori-normal.png");
+}
+
+function sort(){
+    var n = $("#readComments").childNodes.childElementCount;
+    for( var i = 0; i < n-1; i++){
+        if($("#readComments").childNodes.item(i).childNodes.item(0).childNodes.item(0).childNodes.item(2).childNodes.item(0).val() < $("#readComments").childNodes.item(i+1).childNodes.item(0).childNodes.item(0).childNodes.item(2).childNodes.item(0).val()){
+                        var aux = $("#readComments").childNodes.item(i);
+                        $("#readComments").childNodes.item(i) = $("#readComments").childNodes.item(i+1);
+                        $("#readComments").childNodes.item(i+1) = aux;
+        }
+        i = 0;
+    }
+
 }
