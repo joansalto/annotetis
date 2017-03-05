@@ -5,7 +5,7 @@ This project has been developed at <b>HackUPC 2017</b>, winter edition.
 
 ### What is it? 
 
-It's a browser extension that allows users to write comments at every website with a completelly anonimous identity. 
+It's a <b>browser extension</b> that allows users to write comments at every website with a completelly anonimous identity. 
 
 ### How it's made?
 
