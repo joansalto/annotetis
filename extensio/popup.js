@@ -1,4 +1,39 @@
-var URL = 'web';
+//Firebase.enableLogging(true);
+
+var config = {
+    apiKey: "AIzaSyC9N5JbdIrEY1KdrhNNLe5N8DiQOeLnb04",
+    databaseURL: "https://ejemploadri-e8450.firebaseio.com",
+    storageBucket: "ejemploadri-e8450.appspot.com"
+};
+firebase.initializeApp(config);
+
+
+
+var URL = "webñ";
+
+chrome.tabs.getSelected(null, function(tab) {
+    var tabId = tab.id;
+    var tabUrl = tab.url;
+    
+    URL=tabUrl;
+});
+
+/*chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
+    function(tabs){
+        alert(tabs[0].url);
+    }
+);*/
+
+/*chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+    URL = tabs[0].url;
+});*/
+
+//var auth = firebase.auth();
+//auth.signInAnonymously();
+
+/*auth.onAuthStateChanged(function(user) {
+    auth.signInAnonymously();
+});*/
 
 function writeComment() {
     alert("has posteado");
@@ -67,6 +102,7 @@ function update(id, idPadre, snapshot) {
     else {
         var padre = makeFather(container);
         $("#readComments").append(padre);
+        document.getElementById("reply"+id).addEventListener("click",function(){reply(id);});
     }
 }
 
@@ -94,7 +130,7 @@ function makeFather(container) {
     var img4 = document.createElement("img");
     img4.className = "iconos";
     img4.src = "res/reply.png";
-    img4.setAttribute("onclick", "reply('" + container.id + "')");
+    img4.id = "reply"+container.id;
     replyComment.appendChild(img4);
     container.childNodes.item(0).childNodes.item(2).append(replyComment);
     var subContainer = makeSubContainer(container.id);
@@ -307,13 +343,16 @@ function sort() {
     }
 }
 
-function insertAfter(e, i) {
+function insertAfter(e, i,id) {
     if (e.nextSibling) {
         e.parentNode.insertBefore(i, e.nextSibling);
     }
     else {
         e.parentNode.append(i);
     }
+    document.getElementById("postButton2").addEventListener("click",function () {
+        postReply(id);
+    })
 }
 var commentando = false;
 
@@ -334,10 +373,9 @@ function reply(id) {
         divButton.className = "postButton";
         divButton.id = "postButton2";
         divButton.textContent = "reply";
-        divButton.setAttribute("onclick", "postReply('" + id + "')");
         divPost.appendChild(divTextArea);
         divPost.appendChild(divButton);
-        insertAfter(document.getElementById(id), divPost);
+        insertAfter(document.getElementById(id), divPost,id);
     }
 }
 
@@ -390,9 +428,4 @@ function downvote(id) {
         "score": score
     });
 }
-
-document.onload = initializeExt;
-
-function initializeExt() {
-  document.getElementById("postButton").onclick = postComment;
-}
+document.getElementById("postButton").addEventListener("click",function(){postComment();});
