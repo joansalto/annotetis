@@ -42,7 +42,8 @@ function postComment() {
         var hijo = firebase.database().ref(URL + "/subcomments");
         hijo.push({
             papi: llave,
-            comment: "JELOU"
+            comment: "JELOU",
+            score: 0
         })
     }
 }
